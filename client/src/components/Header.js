@@ -6,26 +6,26 @@ const Header = () => {
   const [top, setTop] = useState(true);
 
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
-  const registerUser = async () => {
-    const userInfo = session.user;
+  // const registerUser = async () => {
+  //   const userInfo = session.user;
 
-    try {
-      const res = await fetch("http://localhost:4000/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(userInfo),
-      });
+  //   try {
+  //     const res = await fetch("http://localhost:4000/api/user/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-type": "application/json",
+  //       },
+  //       body: JSON.stringify(userInfo),
+  //     });
 
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  //     const data = await res.json();
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
 
   // detect whether user has scrolled the page down by 10px
   useEffect(() => {
@@ -36,11 +36,11 @@ const Header = () => {
     return () => window.removeEventListener("scroll", scrollHandler);
   }, [top, session]);
 
-  useEffect(() => {
-    if (session?.user) {
-      registerUser();
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session?.user) {
+  //     registerUser();
+  //   }
+  // }, [session]);
 
   return (
     <header

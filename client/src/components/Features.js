@@ -47,10 +47,8 @@ function Features() {
             </p>
           </div>
 
-          {/* md:grid md:grid-cols-12 md:gap-6 */}
-
           {/* Section content */}
-          <div className="md:grid md:mx-[200px] md:gap-6">
+          <div className="md:grid md:grid-cols-12 md:gap-6">
             {/* Content */}
             <div
               className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-7 lg:col-span-6 md:mt-6"
