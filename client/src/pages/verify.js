@@ -181,13 +181,12 @@ const Query = () => {
                 <div className="relative flex flex-col lg:flex-row justify-between items-center">
                   {/* CTA content */}
                   <div className="text-center lg:text-left lg:max-w-xl">
-                    <h3 className="h3 text-white mb-2">
-                      Enter URL or Text Query
-                    </h3>
+                    <h3 className="h3 text-white mb-2">Enter your query</h3>
                     <p className="text-gray-300 text-lg mb-6">
-                      You will be provided with accurate information as well as
-                      the percentage accuracy of the input article will be
-                      highlighted
+                      Through meticulous examination and collaboration with a
+                      team of specialists, we arrive at a diagnosis that aligns
+                      with your symptoms, offering clarity and a roadmap to
+                      targeted care
                     </p>
 
                     {/* CTA form */}
@@ -236,7 +235,7 @@ const Query = () => {
                       </div>
                       {/* Success message */}
                       {/* <p className="text-sm text-gray-400 mt-3">Thanks for subscribing!</p> */}
-                      <p className="text-sm text-gray-400 mt-3">Start Now!</p>
+                      {/* <p className="text-sm text-gray-400 mt-3">Start Now!</p> */}
                     </form>
                     {/* Empty input toast */}
                   </div>
