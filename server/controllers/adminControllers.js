@@ -43,13 +43,14 @@ const registerUser = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
   console.log("Inside the authUser");
   const { email, password } = req.body;
-
+  console.log("About to search for the user");
   const user = await Admin.findOne({ email });
-
+  console.log(user);
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } else {

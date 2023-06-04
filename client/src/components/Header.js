@@ -9,6 +9,7 @@ const Header = () => {
   const { user } = UserState();
   const router = useRouter();
 
+  console.log(user);
   // detect whether user has scrolled the page down by 10px
   useEffect(() => {
     const scrollHandler = () => {
@@ -79,11 +80,13 @@ const Header = () => {
                   Home
                 </span>
               </Link>
-              <Link href="/stats">
-                <span className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                  Statistics
-                </span>
-              </Link>
+              {user?.isAdmin && (
+                <Link href="/stats">
+                  <span className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
+                    Statistics
+                  </span>
+                </Link>
+              )}
               <li
                 href="/signup"
                 className="btn-sm cursor-pointer text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
