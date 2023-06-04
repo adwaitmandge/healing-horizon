@@ -1,16 +1,13 @@
 const express = require("express");
-const { supabase } = require("./config/supabaseClient");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
 
-const userRoutes = require("./routes/userRoutes");
-const professorRoutes = require("./routes/professorRoutes");
-const thesisRoutes = require("./routes/thesisRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const { default: mongoose } = require("mongoose");
 mongoose
-  .connect("mongodb://127.0.0.1:27017/chatSystem")
+  .connect("mongodb://127.0.0.1:27017/healingHorizon")
   .then(() => {
     console.log("Connected to MONGODB successfully");
   })
@@ -22,7 +19,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 const server = app.listen("5000", () => {
   console.log("ON PORT 5000");
