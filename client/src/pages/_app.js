@@ -1,4 +1,4 @@
-import { SessionProvider } from "next-auth/react";
+import UserProvider from "@/UserProvider";
 import "../styles/globals.css";
 
 export default function App({
@@ -6,8 +6,9 @@ export default function App({
   pageProps: { session, ...pageProps },
 }) {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <UserProvider>
+      {" "}
+      <Component {...pageProps} />{" "}
+    </UserProvider>
   );
 }

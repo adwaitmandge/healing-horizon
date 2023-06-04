@@ -1,31 +1,13 @@
+import { UserState } from "@/UserProvider";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 const Header = () => {
   const [top, setTop] = useState(true);
-
-  const { data: session } = useSession();
-  // console.log(session);
-
-  // const registerUser = async () => {
-  //   const userInfo = session.user;
-
-  //   try {
-  //     const res = await fetch("http://localhost:4000/api/user/register", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-type": "application/json",
-  //       },
-  //       body: JSON.stringify(userInfo),
-  //     });
-
-  //     const data = await res.json();
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };
+  const { user } = UserState();
+  const router = useRouter();
 
   // detect whether user has scrolled the page down by 10px
   useEffect(() => {
@@ -34,7 +16,12 @@ const Header = () => {
     };
     window.addEventListener("scroll", scrollHandler);
     return () => window.removeEventListener("scroll", scrollHandler);
-  }, [top, session]);
+  }, [top]);
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    router.push("/login");
+  };
 
   // useEffect(() => {
   //   if (session?.user) {
@@ -94,10 +81,13 @@ const Header = () => {
               </Link>
               <li
                 href="/signup"
-                onClick={!session ? signIn : signOut}
-                className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
+                className="btn-sm cursor-pointer text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
               >
-                <span>{!session ? "Sign In" : "Sign Out"}</span>
+                {!user ? (
+                  <span onClick={() => router.push("/login")}>Sign In</span>
+                ) : (
+                  <span onClick={logoutHandler}>Sign Out</span>
+                )}
                 <svg
                   className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1"
                   viewBox="0 0 12 12"

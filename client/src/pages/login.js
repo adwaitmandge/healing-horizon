@@ -1,19 +1,48 @@
+import { ElevatorSharp } from "@mui/icons-material";
+import ToastCard from "components/toastCard";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Login() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // empty input
+    const body = { email, password };
+    console.log(email, password);
+    if (!email || !password) {
+      setShowModal(true);
+    } else {
+      try {
+        const res = await fetch("http://localhost:5000/api/admin/login", {
+          headers: {
+            "Content-type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        console.log(data);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        router.push("/");
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userinfo"));
+    if (user) router.push("/");
+  }, [router]);
 
   return (
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full">
-          ```
-        */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -82,6 +111,7 @@ export default function Login() {
 
             <div>
               <button
+                onClick={(e) => submitHandler(e)}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
