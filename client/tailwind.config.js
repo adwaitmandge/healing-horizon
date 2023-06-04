@@ -1,5 +1,9 @@
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/flowbite-react/**/*.js",
+  ],
   theme: {
     extend: {
       colors: {
@@ -130,5 +134,5 @@ module.exports = {
     boxShadow: ["responsive", "hover", "focus", "focus-within"],
     opacity: ["responsive", "hover", "focus", "group-hover"],
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("flowbite/plugin")],
 };

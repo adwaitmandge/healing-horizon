@@ -12,6 +12,7 @@ import Link from "next/link";
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import questionSet from "data/questions";
 import { useRouter } from "next/router";
+import PopUp from "@/components/PopUp";
 
 const myLoader = ({ src }) => {
   return `${src}`;
@@ -29,6 +30,7 @@ const Query = () => {
   const [index, setIndex] = useState(0);
   const [userResponses, setUserResponses] = useState([]);
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const [tab, setTab] = useState(1);
   const tabs = useRef(null);
@@ -48,6 +50,7 @@ const Query = () => {
         router.push("/");
       }, 2000);
     } else {
+      setShowModal(true);
     }
   };
 
@@ -106,6 +109,10 @@ const Query = () => {
     console.log("Reponse returned");
     setLoading(false);
     setUserInput("");
+  };
+
+  const onClose = () => {
+    setShowModal(false);
   };
 
   return (
@@ -359,7 +366,7 @@ const Query = () => {
           </div>
         </section>
       </main>
-
+      {showModal && <PopUp onClose={onClose} />}
       {/* <Banner /> */}
 
       {/*  Site footer */}
