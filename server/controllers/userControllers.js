@@ -2,57 +2,38 @@ const asyncHandler = require("express-async-handler");
 const Admin = require("../models/adminModel");
 const generateToken = require("../config/generateToken");
 
-const allUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
-
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
-});
-
 //@description     Register new user
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
-
-  if (!name || !email || !password) {
+  const { email, password } = req.body;
+  console.log("Inside the req body");
+  if (!email || !password) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
 
-  const userExists = await User.findOne({ email });
+  const adminExists = await Admin.findOne({ email });
 
-  if (userExists) {
+  if (adminExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Admin already exists");
   }
 
-  const user = await User.create({
-    name,
+  const admin = await Admin.create({
     email,
     password,
-    pic,
   });
 
-  if (user) {
+  if (admin) {
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
-      token: generateToken(user._id),
+      _id: admin._id,
+      email: admin.email,
+      token: generateToken(admin._id),
     });
   } else {
     res.status(400);
-    throw new Error("User not found");
+    throw new Error("Admin not found");
   }
 });
 
@@ -76,4 +57,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allUsers, registerUser, authUser };
+module.exports = { registerUser, authUser };
