@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 const PopUp = ({ onClose }) => {
@@ -9,7 +8,31 @@ const PopUp = ({ onClose }) => {
   const [age, setAge] = useState("");
   const [region, setRegion] = useState("");
 
-  const submitHandler = () => {};
+  const submitHandler = async () => {
+    const body = {
+      fullName,
+      age,
+      email,
+      phoneNumber,
+      region,
+      institute,
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/student/", {
+        headers: {
+          "Content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <>

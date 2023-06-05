@@ -5,9 +5,12 @@ const studentSchema = mongoose.Schema(
     fullName: { type: "String" },
     age: { type: Number },
     email: { type: "String", unique: true },
-    contactNumber: { type: "String" },
+    phoneNumber: { type: "String" },
     region: { type: "String" },
-    Institute: { type: "String" },
+    institute: { type: "String" },
+    surveyCount: {
+      type: Number,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -16,6 +19,6 @@ const studentSchema = mongoose.Schema(
   { timestaps: true }
 );
 
-const Admin = mongoose.model("Admin", studentSchema);
+const Student = mongoose.model("Student", studentSchema);
 
-module.exports = Admin;
+module.exports = Student;
