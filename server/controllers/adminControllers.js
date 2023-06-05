@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const Admin = require("../mod`els/adminModel");
+const Admin = require("../models/adminModel");
+const Student = require("../models/studentModel");
 const generateToken = require("../config/generateToken");
 
 //@description     Register new user
@@ -59,4 +60,12 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+const getStudents = asyncHandler(async (req, res) => {
+  console.log("Inside the getStudents");
+  console.log("About to search students");
+  const students = await Student.find();
+  console.log(students);
+  res.json(students);
+});
+
+module.exports = { registerUser, authUser, getStudents };

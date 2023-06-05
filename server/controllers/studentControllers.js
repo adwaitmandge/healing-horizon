@@ -37,7 +37,6 @@ const registerUser = asyncHandler(async (req, res) => {
       institute: student.institute,
       isAdmin: student.isAdmin,
       surveyCount: student.surveyCount,
-      token: generateToken(student._id),
     });
   } else {
     res.status(400);

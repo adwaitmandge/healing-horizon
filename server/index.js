@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const adminRoutes = require("./routes/adminRoutes");
+const studentRoutes = require("./routes/studentRoutes");
 
 const { default: mongoose } = require("mongoose");
 mongoose
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/admin", adminRoutes);
+app.use("/api/student", studentRoutes);
 
 const server = app.listen("5000", () => {
   console.log("ON PORT 5000");
