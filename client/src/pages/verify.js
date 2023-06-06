@@ -13,6 +13,7 @@ import { PaperClipIcon } from "@heroicons/react/20/solid";
 import questionSet from "data/questions";
 import { useRouter } from "next/router";
 import PopUp from "@/components/PopUp";
+import { LinearProgress } from "@mui/material";
 
 const myLoader = ({ src }) => {
   return `${src}`;
@@ -238,9 +239,14 @@ const Query = () => {
                           rows={4}
                           value={userInput}
                           onChange={(e) => setUserInput(e.target.value)}
-                          className=" form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden lg:w-[110%]"
+                          className=" inline-block form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden lg:w-[110%]"
                           placeholder="Enter your response here.."
                           aria-label="Query..."
+                        />
+                        <LinearProgress
+                          className="-mt-[5px] min-w-full lg:w-[492px] "
+                          variant="determinate"
+                          value={(index / questions.length) * 100}
                         />
                         <div className="lg:space-x-2 w-[100%] flex-col lg:flex-row lg:w-[110%] flex justify-between">
                           <button

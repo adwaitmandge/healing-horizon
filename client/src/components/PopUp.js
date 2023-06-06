@@ -19,7 +19,7 @@ const PopUp = ({ onClose }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/student/", {
+      const res = await fetch("http://localhost:5000/api/student", {
         headers: {
           "Content-type": "application/json",
         },
@@ -29,6 +29,7 @@ const PopUp = ({ onClose }) => {
 
       const data = await res.json();
       console.log(data);
+      onClose();
     } catch (err) {
       console.error(err.message);
     }
