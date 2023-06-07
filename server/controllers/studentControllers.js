@@ -59,12 +59,8 @@ const markLocation = asyncHandler(async (req, res) => {
   const result = detector.detect(userAgent);
   // res.json(platform);
   console.log("result parse", result);
-  // res.json({
-  //   lat,
-  //   lng,
-  //   result,
-  // });
 
+  console.log(result);
   console.log(result.device.type);
 
   const newLocation = await Location.create({

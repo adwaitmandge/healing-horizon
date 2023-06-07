@@ -1,3 +1,4 @@
+import { UserState } from "@/UserProvider";
 import { ElevatorSharp } from "@mui/icons-material";
 import ToastCard from "components/toastCard";
 import { useRouter } from "next/router";
@@ -5,6 +6,9 @@ import { useEffect, useState } from "react";
 
 export default function Login() {
   const router = useRouter();
+  const { user } = UserState();
+
+  if (user) router.push("/");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,9 +48,7 @@ export default function Login() {
   return (
     <section class="bg-gray-50">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div
-          class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
+        <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <img
             class="w-8 h-8 mr-2"
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
