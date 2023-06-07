@@ -243,11 +243,11 @@ const Query = () => {
                           placeholder="Enter your response here.."
                           aria-label="Query..."
                         />
-                        <LinearProgress
+                        {/* <LinearProgress
                           className="-mt-[5px] min-w-full lg:w-[492px] "
                           variant="determinate"
                           value={(index / questions.length) * 100}
-                        />
+                        /> */}
                         <div className="lg:space-x-2 w-[100%] flex-col lg:flex-row lg:w-[110%] flex justify-between">
                           <button
                             type="button"
@@ -305,6 +305,11 @@ const Query = () => {
                   </div>
                 </div>
               </div>
+              <LinearProgress
+                className="-mt-[5px] h-12 min-w-full"
+                variant="determinate"
+                value={(index / questions.length) * 100}
+              />
             </div>
           </div>
         </section>

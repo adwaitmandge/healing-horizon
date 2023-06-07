@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Admin = require("../models/adminModel");
 const Student = require("../models/studentModel");
+const Location = require("../models/locationModel");
 const generateToken = require("../config/generateToken");
 
 //@description     Register new user
@@ -68,4 +69,12 @@ const getStudents = asyncHandler(async (req, res) => {
   res.json(students);
 });
 
-module.exports = { registerUser, authUser, getStudents };
+const getCoordinates = asyncHandler(async (req, res) => {
+  console.log("Inside the getCoordinates");
+  console.log("About to search coordinates");
+  const coordinates = await Location.find();
+  console.log(coordinates);
+  res.json(coordinates);
+});
+
+module.exports = { registerUser, authUser, getStudents, getCoordinates };

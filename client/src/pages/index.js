@@ -7,14 +7,59 @@ import Testimonials from "../components/Testimonials";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import Banner from "../components/Banner";
+import platform from "platform";
+console.log(platform);
 
 const Home = () => {
   const [hasMounted, setHasMounted] = useState(false);
   const [userInput, setUserInput] = useState("");
+  const [userAgent, setUserAgent] = useState("");
+
+  const successCallback = async (position) => {
+    console.log(position.coords);
+    console.log(position.coords.latitude);
+    console.log(position.coords.longitude);
+
+    if (!userAgent) return;
+    console.log("About to send the request");
+    const body = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+      userAgent: userAgent,
+    };
+    console.log("The body is ", body);
+
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/student/marklocation",
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const errorCallback = (error) => {
+    console.log(error);
+  };
 
   useEffect(() => {
+    setUserAgent(navigator.userAgent);
     setHasMounted(true);
   }, []);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  }, [userAgent]);
 
   if (!hasMounted) return null;
 

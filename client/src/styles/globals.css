@@ -18,6 +18,13 @@
     }
 }
 
+@layer components {
+    .map-container{
+        @apply w-full h-full
+    }
+
+}
+
 /* See Alpine.js: https://github.com/alpinejs/alpine#x-cloak */
 [x-cloak=""] {
     display: none;
