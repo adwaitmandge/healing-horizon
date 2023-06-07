@@ -8,12 +8,14 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import Banner from "../components/Banner";
 import platform from "platform";
+import { UserState } from "@/UserProvider";
 console.log(platform);
 
 const Home = () => {
   const [hasMounted, setHasMounted] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [userAgent, setUserAgent] = useState("");
+  const { user } = UserState();
 
   const successCallback = async (position) => {
     console.log(position.coords);

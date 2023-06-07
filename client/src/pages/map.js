@@ -26,7 +26,9 @@ const App = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAJPA1h5SH9L4yAVdZiqij9RypHjf2tieQ",
   });
-  const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
+
+  if (!isLoaded) return <div>Loading..</div>;
+  // const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
   // if (!isLoaded) return <div>Loading...</div>;
   return <Map coordinates={coordinates} />;
 };
