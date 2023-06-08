@@ -33,7 +33,6 @@ import embeddings
 
 #####
 
-
 # init APP
 app = FastAPI()
 origins = ["*"]

@@ -7,6 +7,11 @@ const detector = new DeviceDetector({
   deviceIndexes: true,
   deviceAliasCode: true,
 });
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr("myTotallySecretKey");
+// const encryptedString = cryptr.encrypt('bacon');
+// const decryptedString = cryptr.decrypt(encryptedString);
+
 const platform = require("platform");
 
 //@description     Register new user
@@ -16,7 +21,29 @@ const registerUser = asyncHandler(async (req, res) => {
   const { fullName, age, email, phoneNumber, region, institute } = req.body;
   console.log("Inside the req body");
 
-  const studentExists = await Student.findOne({ email });
+  const encryptedFullName = cryptr.encrypt(fullName);
+  const encryptedAge = cryptr.encrypt(age);
+  const encryptedEmail = cryptr.encrypt(email);
+  const encryptedPhoneNumber = cryptr.encrypt(phoneNumber);
+  const encryptedRegion = cryptr.encrypt(region);
+  const encryptedInstitute = cryptr.encrypt(institute);
+
+  console.log(
+    "age",
+    encryptedAge,
+    "email",
+    encryptedEmail,
+    "fullname",
+    encryptedFullName,
+    "insti",
+    encryptedInstitute,
+    "phone",
+    encryptedPhoneNumber,
+    "region",
+    encryptedRegion
+  );
+
+  const studentExists = await Student.findOne({ encryptedEmail });
 
   if (studentExists) {
     const { surveyCount } = studentExists;
@@ -26,25 +53,35 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const student = await Student.create({
-    fullName,
-    age,
-    email,
-    phoneNumber,
-    region,
-    institute,
+    fullName: encryptedFullName,
+    age: encryptedAge,
+    email: encryptedEmail,
+    phoneNumber: encryptedPhoneNumber,
+    region: encryptedRegion,
+    institute: encryptedInstitute,
+    surveyCount: 1,
   });
 
   if (student) {
     res.status(201).json({
       _id: student._id,
-      fullName: student.fullName,
-      age: student.age,
-      email: student.email,
-      phoneNumber: student.phoneNumber,
-      region: student.region,
-      institute: student.institute,
+      fullName: cryptr.decrypt(student.fullName),
+      age: cryptr.decrypt(student.age),
+      email: cryptr.decrypt(student.email),
+      phoneNumber: cryptr.decrypt(student.phoneNumber),
+      region: cryptr.decrypt(student.region),
+      institute: cryptr.decrypt(student.institute),
       isAdmin: student.isAdmin,
       surveyCount: student.surveyCount,
+      // _id: student._id,
+      // fullName: student.encryptedFullName,
+      // age: student.encryptedAge,
+      // email: student.encryptedEmail,
+      // phoneNumber: student.encryptedPhoneNumber,
+      // region: student.encryptedRegion,
+      // institute: student.encryptedInstitute,
+      // isAdmin: student.isAdmin,
+      // surveyCount: student.surveyCount,
     });
   } else {
     res.status(400);
