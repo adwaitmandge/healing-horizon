@@ -3,6 +3,8 @@ const Admin = require("../models/adminModel");
 const Student = require("../models/studentModel");
 const Location = require("../models/locationModel");
 const generateToken = require("../config/generateToken");
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr("myTotallySecretKey");
 
 //@description     Register new user
 //@route           POST /api/user/
@@ -65,7 +67,17 @@ const getStudents = asyncHandler(async (req, res) => {
   console.log("Inside the getStudents");
   console.log("About to search students");
   const students = await Student.find();
-  console.log(students);
+
+  students.map((student) => {
+    const { fullName, email, age, phoneNumber, region, institute } = student;
+    student.fullName = cryptr.decrypt(fullName);
+    student.age = cryptr.decrypt(age);
+    student.email = cryptr.decrypt(email);
+    student.phoneNumber = cryptr.decrypt(phoneNumber);
+    student.region = cryptr.decrypt(region);
+    student.institute = cryptr.decrypt(institute);
+  });
+
   res.json(students);
 });
 
