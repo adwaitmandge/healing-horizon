@@ -2,12 +2,38 @@ const asyncHandler = require("express-async-handler");
 const Student = require("../models/studentModel");
 const Location = require("../models/locationModel");
 const DeviceDetector = require("node-device-detector");
+const PDFDocument = require("pdfkit");
 const detector = new DeviceDetector({
   clientIndexes: true,
   deviceIndexes: true,
   deviceAliasCode: true,
 });
+
 const fs = require("fs");
+var pdf = require("pdf-creator-node");
+// Read HTML Template
+var html = fs.readFileSync("index.html", "utf8");
+var options = {
+  format: "A3",
+  orientation: "portrait",
+  border: "10mm",
+  header: {
+    height: "45mm",
+    contents:
+      '<div style="text-align: center; font-size:2rem;">Questions and Answers</div>',
+  },
+  footer: {
+    height: "28mm",
+    contents: {
+      first: "Cover page",
+      2: "Second page", // Any page number is working. 1-based index
+      default:
+        '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+      last: "Last Page",
+    },
+  },
+};
+
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr("myTotallySecretKey");
 // const encryptedString = cryptr.encrypt('bacon');
@@ -142,4 +168,31 @@ const storeResponse = asyncHandler(async (req, res) => {
   // res.json(userResponse);
 });
 
-module.exports = { registerUser, markLocation, storeResponse };
+const storePDF = asyncHandler(async (req, res) => {
+  console.log("Inside the storeResponse route");
+  console.log(req.body);
+
+  var document = {
+    html: html,
+    data: {
+      survey: req.body,
+    },
+    path: "./output.pdf",
+    type: "",
+  };
+
+  pdf
+    .create(document, options)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  console.log("new pdf created");
+  res.json(req.body);
+  // res.json(userResponse);
+});
+
+module.exports = { registerUser, markLocation, storeResponse, storePDF };
