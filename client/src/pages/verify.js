@@ -55,7 +55,7 @@ const Query = () => {
     }
   };
 
-  const responseAnalyser = (input, index) => {
+  const responseAnalyser = async (input, index) => {
     // empty input
     if (input) {
       setUserResponses([
@@ -63,47 +63,33 @@ const Query = () => {
         { question: questionSet[index], answer: input },
       ]);
     }
-    console.log(userResponses);
-    setIndex((index + 1) % questionSet.length);
-    setUserInput("");
+
+    if (index == questions.length - 1) {
+      await submitHandler();
+    } else {
+      console.log(userResponses);
+      setIndex((index + 1) % questionSet.length);
+      setUserInput("");
+    }
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    console.log("The entered data is ", userInput);
+  const submitHandler = async () => {
+    console.log("The entered data is ", userResponses);
 
-    // userInput is null
-    if (!userInput) {
-      console.log("Inside if");
-      toast({
-        title: "Invalid Input",
-        position: "bottom-right",
-        description: "Please fill the input field",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-
+    const body = { data: userResponses };
     setLoading(true);
     console.log("About to send a post request");
     try {
-      const res = await fetch("http://localhost:5000/factcheck", {
+      const res = await fetch("http://localhost:5000/api/student/response", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
-        body: userInput,
+        body: JSON.stringify(userResponses),
       });
       const data = await res.json();
       console.log("After the request");
       console.log("The data is ", data);
-      console.log("Printing the object");
-      console.log(data.result[0]);
-      console.log(data.result[1]);
-
-      setResponse1(data.result[0]);
-      setResponse2(data.result[1]);
     } catch (err) {
       console.error(err.message);
     }

@@ -25,8 +25,6 @@ import shutil
 import pathlib
 import os
 import glob
-import markdown2
-
 
 # Custom modules
 import embeddings

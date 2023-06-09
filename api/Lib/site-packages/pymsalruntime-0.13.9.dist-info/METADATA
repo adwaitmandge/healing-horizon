@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: pymsalruntime
+Version: 0.13.9
+Summary: The MSALRuntime Python Interop Package
+Author: Microsoft Corporation
+Author-email: MSALRuntime@microsoft.com
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+

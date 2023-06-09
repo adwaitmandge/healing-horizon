@@ -7,6 +7,7 @@ const detector = new DeviceDetector({
   deviceIndexes: true,
   deviceAliasCode: true,
 });
+const fs = require("fs");
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr("myTotallySecretKey");
 // const encryptedString = cryptr.encrypt('bacon');
@@ -110,4 +111,35 @@ const markLocation = asyncHandler(async (req, res) => {
   res.json(newLocation);
 });
 
-module.exports = { registerUser, markLocation };
+const storeResponse = asyncHandler(async (req, res) => {
+  console.log("Inside the storeResponse route");
+  console.log(req.body);
+
+  console.log("About to write a new file");
+  fs.writeFile(
+    "/coding/Adwait/qna.txt",
+    "Questions and Answers!\n",
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("The file was saved!");
+    }
+  );
+
+  console.log("About to store the responses");
+  req.body.map((obj) => {
+    fs.appendFile(
+      "/coding/Adwait/qna.txt",
+      `Question: ${obj.question}\nAnswer: ${obj.answer}\n`,
+      function (err) {
+        if (err) throw err;
+        console.log("Saved!");
+      }
+    );
+  });
+  res.json(req.body);
+  // res.json(userResponse);
+});
+
+module.exports = { registerUser, markLocation, storeResponse };
