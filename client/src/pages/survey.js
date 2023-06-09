@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Box, TextField } from "@mui/material";
 import Link from "next/link";
 import { PaperClipIcon } from "@heroicons/react/20/solid";
-import questionSet from "data/questions";
+import mainQuestionSet from "data/mainQuestions";
 import { useRouter } from "next/router";
 import PopUp from "@/components/PopUp";
 import { LinearProgress } from "@mui/material";
@@ -27,34 +27,50 @@ const Query = () => {
   const [response1, setResponse1] = useState();
   const [response2, setResponse2] = useState();
   const [loading, setLoading] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-  const [questions, setQuestions] = useState(questionSet);
-  const [index, setIndex] = useState(1);
-  const [userResponses, setUserResponses] = useState();
+  const [questions, setQuestions] = useState(mainQuestionSet);
+  const [index, setIndex] = useState(0);
+  const [userResponses, setUserResponses] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const [tab, setTab] = useState(1);
   const tabs = useRef(null);
 
-  const responseAnalyser = (e) => {
-    console.log(e.target.value);
-    if (e.target.value == "Agree") {
-      setUserInput(userInput + 1);
-    } else if (e.target.value == "Disagree") {
-      setUserInput(userInput - 1);
+  const shareHandler = () => {
+    const socialMediaLinks = new ShareLink("twitter");
+    socialMediaLinks.get({ text: response1 });
+    socialMediaLinks.open();
+    console.log(socialMediaLinks);
+  };
+
+  const shareInformation = (e) => {
+    e.preventDefault();
+    if (userResponses.length == 0) {
+      setMessage("Thank you for your responses!");
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } else {
+      setShowModal(true);
+    }
+  };
+
+  const responseAnalyser = async (input, index) => {
+    // empty input
+    if (input) {
+      setUserResponses([
+        ...userResponses,
+        { question: mainQuestionSet[index], answer: input },
+      ]);
     }
 
-    // Last question answered
-    if (index == questions.length) {
-      if (userInput >= 3) {
-        setMessage("Congratulations! You have a healthy lifestyle!");
-      } else {
-        setMessage("It is recommended that you take our test");
-      }
+    if (index == questions.length - 1) {
+      await submitHandler();
+    } else {
+      console.log(userResponses);
+      setIndex((index + 1) % mainQuestionSet.length);
+      setUserInput("");
     }
-    setIndex(index + 1);
   };
 
   const submitHandler = async () => {
@@ -191,7 +207,7 @@ const Query = () => {
                   {/* CTA content */}
                   <div className="text-center lg:text-left lg:max-w-xl">
                     <h3 className="h3 text-white mb-2 text-left md:w-[80%] lg:w-[90%] ">
-                      {!message ? questions[index - 1] : message}
+                      {!message ? questions[index] : message}
                     </h3>
                     <p className="text-left text-gray-300 text-lg mb-6 md:w-[80%] lg:w-[90%] ">
                       Through meticulous examination and collaboration with a
@@ -205,78 +221,27 @@ const Query = () => {
                       {/* flex flex-col sm:flex-row justify-center max-w-xs mx-auto sm:max-w-md lg:mx-0 */}
                       <div className="sm:flex-row justify-center max-w-xs md:max-auto sm:max-w-md lg:mx-0">
                         {/* form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden  */}
-                        <div class="mb-3">
-                          {message == "" && (
-                            <button
-                              value="Agree"
-                              type="button"
-                              onClick={(e) => responseAnalyser(e)}
-                              className="w-[100%] lg:w-[110%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
-                            >
-                              Agree
-                            </button>
-                          )}
-                        </div>
-                        <div class=" mb-3">
-                          {message == "" && (
-                            <button
-                              value="Disagree"
-                              type="button"
-                              onClick={(e) => responseAnalyser(e)}
-                              className="w-[100%] lg:w-[110%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
-                            >
-                              Disagree
-                            </button>
-                          )}
-                        </div>
-                        <div class=" mb-3">
-                          {message == "" && (
-                            <button
-                              value="Neutral"
-                              onClick={(e) => responseAnalyser(e)}
-                              type="button"
-                              className="w-[100%] lg:w-[110%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
-                            >
-                              Neutral
-                            </button>
-                          )}
-                        </div>
+                        <textarea
+                          rows={4}
+                          value={userInput}
+                          onChange={(e) => setUserInput(e.target.value)}
+                          className=" inline-block form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden lg:w-[110%]"
+                          placeholder="Enter your response here.."
+                          aria-label="Query..."
+                        />
                         {/* <LinearProgress
                           className="-mt-[5px] min-w-full lg:w-[492px] "
                           variant="determinate"
                           value={(index / questions.length) * 100}
                         /> */}
                         <div className="lg:space-x-2 w-[100%] flex-col lg:flex-row lg:w-[110%] flex justify-between">
-                          {/* {message !=
-                            "It is recommended that you take our test" && (
-                            <button
-                              type="button"
-                              onClick={() => responseAnalyser(index)}
-                              className={`w-[100%] ${
-                                message ==
-                                "Congratulations! You have a healthy lifestyle!"
-                                  ? "hidden"
-                                  : ""
-                              } lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow`}
-                            >
-                              Next
-                            </button>
-                          )} */}
-                          {message ==
-                            "It is recommended that you take our test" && (
-                            <button
-                              type="button"
-                              onClick={() => router.push("/survey")}
-                              className={`w-[100%] ${
-                                message ==
-                                "Congratulations! You have a healthy lifestyle!"
-                                  ? "hidden"
-                                  : ""
-                              } lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow`}
-                            >
-                              Take Survey
-                            </button>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => responseAnalyser(userInput, index)}
+                            className="w-[100%] lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
+                          >
+                            {!userInput ? "Skip" : "Submit"}
+                          </button>
                           {/* {!loading ? (
                             <button
                               onClick={() => setIndex(index + 1)}
@@ -310,19 +275,12 @@ const Query = () => {
                               Loading...
                             </button>
                           )} */}
-                          {message != "" && (
-                            <Link
-                              href="/"
-                              className={`w-[100%] ${
-                                message ==
-                                "Congratulations! You have a healthy lifestyle!"
-                                  ? "lg:w-[100]"
-                                  : "lg:w-[50%]"
-                              } btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow`}
-                            >
-                              Leave
-                            </Link>
-                          )}
+                          <button
+                            onClick={(e) => shareInformation(e)}
+                            className="w-[100%] lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
+                          >
+                            Leave
+                          </button>
                         </div>
                       </div>
                       {/* Success message */}
@@ -336,7 +294,7 @@ const Query = () => {
               <LinearProgress
                 className="-mt-[5px] h-3 min-w-full"
                 variant="determinate"
-                value={((index - 1) / questions.length) * 100}
+                value={(index / questions.length) * 100}
               />
             </div>
           </div>
@@ -363,6 +321,25 @@ const Query = () => {
                   empathy, and tailored support. Our team is here to assist you
                   along the way.
                 </p>
+                {response1 && response2 && (
+                  <Box
+                    className="mt-9 min-h-[1000px] w-[1000px] "
+                    sx={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      "& > :not(style)": {
+                        m: 1,
+                        // width: 1000,
+                        // height: 1000,
+                      },
+                    }}
+                  >
+                    <Paper elevation={10} className="">
+                      <div className="p-10 text-2xl ">{response1}</div>
+                      <div className="p-10 text-2xl ">{response2}</div>
+                    </Paper>
+                  </Box>
+                )}
               </div>
 
               {/* Displaying the Response */}
