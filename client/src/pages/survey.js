@@ -65,7 +65,9 @@ const Query = () => {
     }
 
     if (index == questions.length - 1) {
-      await submitHandler();
+      const res = await submitHandler();
+      const data = res.json();
+      console.log(data);
     } else {
       console.log(userResponses);
       setIndex((index + 1) % mainQuestionSet.length);
@@ -80,7 +82,7 @@ const Query = () => {
     setLoading(true);
     console.log("About to send a post request");
     try {
-      const res = await fetch("http://localhost:5000/api/student/response", {
+      const res = await fetch("http://localhost:5000/api/student/pdf", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

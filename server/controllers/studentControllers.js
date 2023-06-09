@@ -157,7 +157,8 @@ const storeResponse = asyncHandler(async (req, res) => {
   req.body.map((obj) => {
     fs.appendFile(
       "/coding/Adwait/qna.txt",
-      `Question: ${obj.question}\nAnswer: ${obj.answer}\n`,
+      `${obj.answer}\n`,
+      // `Question: ${obj.question}\nAnswer: ${obj.answer}\n`,
       function (err) {
         if (err) throw err;
         console.log("Saved!");
@@ -191,8 +192,29 @@ const storePDF = asyncHandler(async (req, res) => {
     });
 
   console.log("new pdf created");
-  res.json(req.body);
+
+  const body = {
+  filetype: "pdf",
+  embed_model: "HF",
+  llm_model: "HF",
+  ocr: false,
+};
+const result = await fetch("http://127.0.0.1:8000/process", {
+  method: "POST",
+  body: JSON.stringify(body),
+});
+console.log("After result request");
+const data = await result.json();
+console.log(data);
+  res.json(data);
   // res.json(userResponse);
 });
 
-module.exports = { registerUser, markLocation, storeResponse, storePDF };
+const interpret = asyncHandler(async (req, res) => {
+  console.log("Inside the storeResponse route");
+  console.log(req.body);
+
+  res.json(obj);
+});
+
+module.exports = { registerUser, markLocation, storeResponse, storePDF, interpret };

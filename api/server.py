@@ -16,6 +16,8 @@ from llama_index import download_loader, ServiceContext
 from PyPDF2 import PdfMerger
 import pdfkit
 import os
+import requests
+import json
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
@@ -116,10 +118,18 @@ async def process(
 
 # ask questions on processed document
 @app.post("/queryqna")
-async def query(query: Annotated[str, Form()]):
+async def query():
+    query = ["addicted to alcohol?", "Mobile addiction?"]
+    dict = {}
+    counter = 1
+    for q in query:
+        res = embeddings.query_qna(q, current_filename, current_service_context)
+        dict.update({counter: str(res)})
+        counter += 1
+    print(dict)
+    url = "http://localhost:5000/api/student/interpret"
+    headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    requests.post(url, json=dict, headers=headers)
 
-    res = embeddings.query_qna(query, current_filename, current_service_context)
+    return dict
 
-    print(res)
-
-    return res
