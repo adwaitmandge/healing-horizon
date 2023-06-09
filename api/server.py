@@ -71,12 +71,13 @@ current_service_context = None
 @app.post("/process")
 async def process(
     filetype: Annotated[str, Form()],
-    files: List[UploadFile],
+    # files: List[UploadFile],
     embed_model: Annotated[str, Form()],
     llm_model: Annotated[str, Form()],
     ocr: Annotated[str, Form()],
 ):
-
+    files = open("output.pdf", "rb")
+    print(files.name)
     redundant = glob.glob("./current_active/*")
     for r in redundant:
         os.remove(r)
@@ -87,10 +88,8 @@ async def process(
 
     merger = PdfMerger()
 
-    for file in files:
-        with open(f"current_active/_merge{file.filename}", "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-
+    with open(f"current_active/_merge{files.name}", "wb") as buffer:
+        shutil.copyfileobj(files, buffer)
     for item in os.listdir("./current_active/"):
         if item.startswith("_merge"):
             if ocr == "true":

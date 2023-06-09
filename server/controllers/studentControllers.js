@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Student = require("../models/studentModel");
 const Location = require("../models/locationModel");
 const DeviceDetector = require("node-device-detector");
-const PDFDocument = require("pdfkit");
+// const PDFDocument = require("pdfkit");
 const detector = new DeviceDetector({
   clientIndexes: true,
   deviceIndexes: true,
@@ -177,7 +177,7 @@ const storePDF = asyncHandler(async (req, res) => {
     data: {
       survey: req.body,
     },
-    path: "./output.pdf",
+    path: "../api/output.pdf",
     type: "",
   };
 
