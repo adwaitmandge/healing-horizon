@@ -87,6 +87,8 @@ const registerUser = asyncHandler(async (req, res) => {
     region: encryptedRegion,
     institute: encryptedInstitute,
     surveyCount: 1,
+    Alcohol: true,
+    Internet: true,
   });
 
   if (student) {

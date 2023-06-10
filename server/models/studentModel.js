@@ -15,6 +15,26 @@ const studentSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    Alcohol: {
+      type: Boolean,
+      default: false,
+    },
+    Smoking: {
+      type: Boolean,
+      default: false,
+    },
+    Marijuana: {
+      type: Boolean,
+      default: false,
+    },
+    HardDrugs: {
+      type: Boolean,
+      default: false,
+    },
+    Internet: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestaps: true }
 );

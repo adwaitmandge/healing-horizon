@@ -7,11 +7,33 @@
 // console.log(encryptedString);
 // console.log(decryptedString);
 
-const fs = require("fs");
+const { default: mongoose } = require("mongoose");
+mongoose
+  .connect("mongodb://127.0.0.1:27017/healingHorizon")
+  .then(() => {
+    console.log("Connected to MONGODB successfully");
+  })
+  .catch((err) => {
+    console.log("Couldn't connect to db");
+    console.log(err);
+  });
+const Location = require("./models/locationModel");
 
-fs.writeFile("/tmp/test", "Hey there!\nHi", function (err) {
-  if (err) {
-    return console.log(err);
-  }
-  console.log("The file was saved!");
-});
+// const fs = require("fs");
+
+// fs.writeFile("/tmp/test", "Hey there!\nHi", function (err) {
+//   if (err) {
+//     return console.log(err);
+//   }
+//   console.log("The file was saved!");
+// });
+
+const insertLocation = async () => {
+  const newLocation = await Location.create({
+    lat: 8.50357,
+    lng: 76.94742,
+  });
+  console.log("Created New Location");
+};
+
+insertLocation();

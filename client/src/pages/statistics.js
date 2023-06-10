@@ -138,6 +138,7 @@ const Home = () => {
                         {student.age}
                       </td>
                       <td class="px-6 py-4"> {student.region}</td>
+                      <td class="px-6 py-4"> {student.Alcohol == true ? "Alcohol":""}, {student.Alcohol == true ? "Internet":""}</td>
                     </tr>
                   );
                 })}

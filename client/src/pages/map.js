@@ -42,8 +42,8 @@ const Map = ({ coordinates }) => {
       <main className="flex-grow">
         {/*  Page sections */}
         <GoogleMap
-          zoom={12}
-          center={{ lat: 19.212292, lng: 72.875397 }}
+          zoom={18}
+          center={{ lat: 8.50338, lng: 76.94751 }}
           mapContainerClassName="w-[90%] mx-auto h-[85vh] mt-20"
         >
           {coordinates.map((coords) => {

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const PopUp = ({ onClose }) => {
@@ -7,6 +8,7 @@ const PopUp = ({ onClose }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
   const [region, setRegion] = useState("");
+  const router = useRouter();
 
   const submitHandler = async () => {
     const body = {
@@ -30,6 +32,7 @@ const PopUp = ({ onClose }) => {
       const data = await res.json();
       console.log(data);
       onClose();
+      router.push("/");
     } catch (err) {
       console.error(err.message);
     }

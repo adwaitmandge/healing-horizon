@@ -5,7 +5,7 @@ const locationSchema = mongoose.Schema(
   {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
-    deviceType: { type: "String", required: true },
+    deviceType: { type: "String" },
   },
   { timestaps: true }
 );
