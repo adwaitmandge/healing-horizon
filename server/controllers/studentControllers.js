@@ -54,6 +54,11 @@ const registerUser = asyncHandler(async (req, res) => {
   const encryptedPhoneNumber = cryptr.encrypt(phoneNumber);
   const encryptedRegion = cryptr.encrypt(region);
   const encryptedInstitute = cryptr.encrypt(institute);
+  const encryptedAlcohol = cryptr.encrypt("1");
+  const encryptedInternet = cryptr.encrypt("1");
+  const encryptedSmoking = cryptr.encrypt("0");
+  const encryptedMarijuana = cryptr.encrypt("0");
+  const encryptedHardDrugs = cryptr.encrypt("0");
 
   console.log(
     "age",
@@ -87,8 +92,11 @@ const registerUser = asyncHandler(async (req, res) => {
     region: encryptedRegion,
     institute: encryptedInstitute,
     surveyCount: 1,
-    Alcohol: true,
-    Internet: true,
+    Alcohol: encryptedAlcohol,
+    Internet: encryptedInternet,
+    Smoking: encryptedSmoking,
+    Marijuana: encryptedMarijuana,
+    HardDrugs: encryptedHardDrugs,
   });
 
   if (student) {
@@ -100,6 +108,11 @@ const registerUser = asyncHandler(async (req, res) => {
       phoneNumber: cryptr.decrypt(student.phoneNumber),
       region: cryptr.decrypt(student.region),
       institute: cryptr.decrypt(student.institute),
+      Alcohol: cryptr.decrypt(student.Alcohol),
+      Internet: cryptr.decrypt(student.Alcohol),
+      Marijuana: cryptr.decrypt(student.Marijuana),
+      Smoking: student.Smoking,
+      HardDrugs: cryptr.decrypt(student.HardDrugs),
       isAdmin: student.isAdmin,
       surveyCount: student.surveyCount,
       // _id: student._id,

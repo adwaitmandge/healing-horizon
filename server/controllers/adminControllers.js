@@ -69,13 +69,30 @@ const getStudents = asyncHandler(async (req, res) => {
   const students = await Student.find();
 
   students.map((student) => {
-    const { fullName, email, age, phoneNumber, region, institute } = student;
+    const {
+      fullName,
+      email,
+      age,
+      phoneNumber,
+      region,
+      institute,
+      Alcohol,
+      Internet,
+      Smoking,
+      Marijuana,
+      HardDrugs,
+    } = student;
     student.fullName = cryptr.decrypt(fullName);
     student.age = cryptr.decrypt(age);
     student.email = cryptr.decrypt(email);
     student.phoneNumber = cryptr.decrypt(phoneNumber);
     student.region = cryptr.decrypt(region);
     student.institute = cryptr.decrypt(institute);
+    student.Alcohol = cryptr.decrypt(Alcohol);
+    student.Internet = cryptr.decrypt(Internet);
+    student.Marijuana = cryptr.decrypt(Marijuana);
+    student.HardDrugs = cryptr.decrypt(HardDrugs);
+    student.Smoking = cryptr.decrypt(Smoking);
   });
 
   res.json(students);

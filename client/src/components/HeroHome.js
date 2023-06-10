@@ -3,6 +3,7 @@ import Modal from "../utils/Modal";
 
 import Image from "next/image";
 import Link from "next/link";
+import { UserState } from "@/UserProvider";
 
 const myLoader = ({ src }) => {
   return `${src}`;
@@ -11,6 +12,8 @@ const myLoader = ({ src }) => {
 function HeroHome() {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const video = useRef(null);
+
+  const { user } = UserState();
 
   useEffect(() => {
     videoModalOpen ? video.current.play() : video.current.pause();
@@ -79,17 +82,19 @@ function HeroHome() {
                 // data-aos="zoom-y-out"
                 // data-aos-delay="300"
               >
-                <div>
-                  <Link
-                    className="btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
-                    href="/verify"
-                  >
-                    Start Now
-                  </Link>
-                </div>
+                {!user && (
+                  <div>
+                    <Link
+                      className="btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
+                      href="/verify"
+                    >
+                      Start Now
+                    </Link>
+                  </div>
+                )}
                 <div>
                   <a
-                    className="btn text-white bg-gray-900 hover:bg-gray-800 w-full sm:w-auto sm:ml-4"
+                    className={`btn text-white bg-gray-900 hover:bg-gray-800 w-full  sm:w-auto sm:ml-4`}
                     href="#0"
                   >
                     Learn more

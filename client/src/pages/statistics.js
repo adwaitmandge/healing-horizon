@@ -121,6 +121,7 @@ const Home = () => {
               </thead>
               <tbody>
                 {students.map((student) => {
+                  console.log(student);
                   return (
                     <tr class="border-b border-gray-200 dark:border-gray-700">
                       <th
@@ -138,7 +139,15 @@ const Home = () => {
                         {student.age}
                       </td>
                       <td class="px-6 py-4"> {student.region}</td>
-                      <td class="px-6 py-4"> {student.Alcohol == true ? "Alcohol":""}, {student.Alcohol == true ? "Internet":""}</td>
+                      <td class="px-6 py-4">
+                        {" "}
+                        {student.Alcohol == true && "Alcohol"}{" "}
+                        {student.Internet == true && "Internet"}{" "}
+                        {student.Marijuana == true && "Marijuana"}{" "}
+                        {student.HardDrugs == true && "Hard Drugs"}{" "}
+                        {student.Smoking == true && "Smoking"}
+                        {""}
+                      </td>
                     </tr>
                   );
                 })}
