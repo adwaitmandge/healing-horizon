@@ -194,18 +194,18 @@ const storePDF = asyncHandler(async (req, res) => {
   console.log("new pdf created");
 
   const body = {
-  filetype: "pdf",
-  embed_model: "HF",
-  llm_model: "HF",
-  ocr: false,
-};
-const result = await fetch("http://127.0.0.1:8000/process", {
-  method: "POST",
-  body: JSON.stringify(body),
-});
-console.log("After result request");
-const data = await result.json();
-console.log(data);
+    filetype: "pdf",
+    embed_model: "HF",
+    llm_model: "HF",
+    ocr: false,
+  };
+  const result = await fetch("http://127.0.0.1:8000/process", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  console.log("After result request");
+  const data = await result.json();
+  console.log(data);
   res.json(data);
   // res.json(userResponse);
 });
@@ -217,4 +217,10 @@ const interpret = asyncHandler(async (req, res) => {
   res.json(obj);
 });
 
-module.exports = { registerUser, markLocation, storeResponse, storePDF, interpret };
+module.exports = {
+  registerUser,
+  markLocation,
+  storeResponse,
+  storePDF,
+  interpret,
+};

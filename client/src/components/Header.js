@@ -99,9 +99,9 @@ const Header = () => {
                 className="btn-sm cursor-pointer text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
               >
                 {!user ? (
-                  <button type="button" onClick={() => router.push("/login")}>
+                  <Link type="button" href="/login">
                     Sign In
-                  </button>
+                  </Link>
                 ) : (
                   <button type="button" onClick={logoutHandler}>
                     Sign Out

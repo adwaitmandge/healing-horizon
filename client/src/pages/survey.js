@@ -28,7 +28,7 @@ const Query = () => {
   const [response2, setResponse2] = useState();
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState(mainQuestionSet);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1);
   const [userResponses, setUserResponses] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -52,26 +52,6 @@ const Query = () => {
       }, 2000);
     } else {
       setShowModal(true);
-    }
-  };
-
-  const responseAnalyser = async (input, index) => {
-    // empty input
-    if (input) {
-      setUserResponses([
-        ...userResponses,
-        { question: mainQuestionSet[index], answer: input },
-      ]);
-    }
-
-    if (index == questions.length - 1) {
-      const res = await submitHandler();
-      const data = res.json();
-      console.log(data);
-    } else {
-      console.log(userResponses);
-      setIndex((index + 1) % mainQuestionSet.length);
-      setUserInput("");
     }
   };
 
@@ -102,6 +82,26 @@ const Query = () => {
 
   const onClose = () => {
     setShowModal(false);
+  };
+
+  const responseAnalyser = async (input, index) => {
+    // empty input
+    if (input) {
+      setUserResponses([
+        ...userResponses,
+        { question: mainQuestionSet[index], answer: input },
+      ]);
+    }
+
+    setIndex(index + 1);
+    if (index == questions.length) {
+      const res = await submitHandler();
+      // const data = await res.json();
+      // console.log(data);
+      setMessage("Thank you for your Responses!");
+    }
+    console.log(userResponses);
+    setUserInput("");
   };
 
   return (
@@ -209,7 +209,7 @@ const Query = () => {
                   {/* CTA content */}
                   <div className="text-center lg:text-left lg:max-w-xl">
                     <h3 className="h3 text-white mb-2 text-left md:w-[80%] lg:w-[90%] ">
-                      {!message ? questions[index] : message}
+                      {!message ? questions[index - 1] : message}
                     </h3>
                     <p className="text-left text-gray-300 text-lg mb-6 md:w-[80%] lg:w-[90%] ">
                       Through meticulous examination and collaboration with a
@@ -223,27 +223,31 @@ const Query = () => {
                       {/* flex flex-col sm:flex-row justify-center max-w-xs mx-auto sm:max-w-md lg:mx-0 */}
                       <div className="sm:flex-row justify-center max-w-xs md:max-auto sm:max-w-md lg:mx-0">
                         {/* form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden  */}
-                        <textarea
-                          rows={4}
-                          value={userInput}
-                          onChange={(e) => setUserInput(e.target.value)}
-                          className=" inline-block form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden lg:w-[110%]"
-                          placeholder="Enter your response here.."
-                          aria-label="Query..."
-                        />
+                        {!message && (
+                          <textarea
+                            rows={4}
+                            value={userInput}
+                            onChange={(e) => setUserInput(e.target.value)}
+                            className=" inline-block form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500 focus:outline-none active:outline-none resize-none overflow-hidden lg:w-[110%]"
+                            placeholder="Enter your response here.."
+                            aria-label="Query..."
+                          />
+                        )}
                         {/* <LinearProgress
                           className="-mt-[5px] min-w-full lg:w-[492px] "
                           variant="determinate"
                           value={(index / questions.length) * 100}
                         /> */}
                         <div className="lg:space-x-2 w-[100%] flex-col lg:flex-row lg:w-[110%] flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => responseAnalyser(userInput, index)}
-                            className="w-[100%] lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
-                          >
-                            {!userInput ? "Skip" : "Submit"}
-                          </button>
+                          {!message && (
+                            <button
+                              type="button"
+                              onClick={() => responseAnalyser(userInput, index)}
+                              className="w-[100%] lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
+                            >
+                              {!userInput ? "Skip" : "Submit"}
+                            </button>
+                          )}
                           {/* {!loading ? (
                             <button
                               onClick={() => setIndex(index + 1)}
@@ -279,7 +283,9 @@ const Query = () => {
                           )} */}
                           <button
                             onClick={(e) => shareInformation(e)}
-                            className="w-[100%] lg:w-[50%] btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow"
+                            className={`w-[100%] ${
+                              message ? "lg:w-[100%]" : "lg:w-[50%]"
+                            } btn mt-2 text-white bg-blue-600 hover:bg-blue-700 shadow`}
                           >
                             Leave
                           </button>
@@ -296,7 +302,7 @@ const Query = () => {
               <LinearProgress
                 className="-mt-[5px] h-3 min-w-full"
                 variant="determinate"
-                value={(index / questions.length) * 100}
+                value={((index - 1) / questions.length) * 100}
               />
             </div>
           </div>
