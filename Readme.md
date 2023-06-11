@@ -1,106 +1,107 @@
-# Healing-Horizon
 
-<div align="center">
-   <strong>Code To Give'23</strong> <br>
-  - Team 12 <br> <br>
-</div>
 
-<div align="center">
-<table>
-  <tr>
-    <td>
-Survey Application to assess healthy lifestyle and identify substance abuse patterns
-<br><br>
-      <b>Key Features</b>:
-      <ul>
-<li> Personality Test
-<li> Scoring and Threshold
-<li> Substance Addictoin Survey
-<li> Sensitve Data Encryption
-<li> Large Language Model Interpretation
-<li> Location Tracking
-      </ul>
-<br><br>
-      <b>Admin Privileges</b>:
-      <ul>
-<li> Analyze User Data
-<li> Map Analysis
-<li> Collaboration With NGO's
-      </ul>
-    </td>
-  </tr>
-  </table>
-  </div>
-  <img width="959" alt="LANDING PAGE" src="https://github.com/adwaitmandge/healing-horizon/assets/97301984/31f1efe8-7d51-405d-9c0a-5e516d70268a">
-## Features
 
-**User-Side** 👨‍
-- Undergo Personality Test
-- <img width="952" alt="PERSONALITY TEST" src="https://github.com/adwaitmandge/healing-horizon/assets/97301984/d3cc2f3c-8514-42bd-b96b-dc29c82f6827">
+# Team 12
+Healing Horizon is an application that would help identify the type of substance use/addiction (Ex. drugs, device or internet, alcohol, to name a few) a student has by asking set of non-judgemental questions to categorize and assist the 
+counsellors in charge of running de-addiction / intervention programs. 
+The valuable data gathered from the target audience, and the relevant insights gained through these intervention programs, can be presented to relevant forums. 
 
-- Undergo Substance Addiction Survey  
-  🎓<img width="950" alt="Screenshot 2023-06-06 140907" src="https://github.com/adwaitmandge/healing-horizon/assets/97301984/472d22a1-4637-4233-a480-a8c2ac23b808">
 
-  **Admin-side**👨‍💻
+## 👩🏻‍💻 Team members 
 
-- Analysis of User Data
-- <img width="959" alt="data" src="https://github.com/adwaitmandge/healing-horizon/assets/97301984/19104a22-bd62-4acf-8abd-c0fab331e643">
+- [Adwait Mandge](https://github.com/adwaitmandge) 
+- [Dishie Vinchhi](https://github.com/Dishie2498) 
 
-- Map and Location based analysis
-<img width="952" alt="map" src="https://github.com/adwaitmandge/healing-horizon/assets/97301984/0cb86404-c59f-4f6d-a0ae-e380f1bdb053">
+## 🧑🏻‍🏫 Mentor 
+- Anurag Brahmachary
+- Sandip Bramhankar
 
-- Collaboration with NGOs
+## 📝 Description 
+Healing Horizon is an application that would help identify the type of substance use/addiction a student has.
 
-## 🛠️ Project Setup
 
-#### For Web
+## 🧰 Technology stack 
 
-1. Clone the repository
+Tools and technologies learnt and used in this project:
+    
+    1. Node JS
+    2. FastAPI
+    3. Langchain
 
-```
-https://github.com/adwaitmandge/healing-horizon
 
-```
+## 📈 Stages
+- Personality Test<br>
+Users are asked to answer questions ('agree', 'disagree', 'neutral') on the basis of which their personality and lifestyle is evaluated.
+- Substance Abuse Survey<br>
+Users are asked to answer to a set of questions in detail. They can opt to skip questions and not reveal their personal details.
+- Identification<br>
+On the basis of answers given to the survey questions, the substance/ habit to which the user is addicted is identified by a LLM.
 
-To start the User interface
+## 🖥️ Project Setup 
+- Click on the link below to open the repository for the project
 
-```
-cd client
-npm install
-npm run dev
+  [github repo](https://github.com/adwaitmandge/healing-horizon)
+    
+- Now **fork** this repository. This will create (fork) a copy of the project from our GitHub profile onto yours.
+
+- You can directly clone the repository from our GitHub profile on your local machine and you are all set to use. In this case, however, we will be able to monitor your actions.
+
+- Clone the project
+
+        git clone project_link
+
+
+- Go to the project directory
+
+        cd healing-horizon
+
+
+
+## 🛠️ Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
 ```
 
-To start the express server
+Go to the project directory
 
-```
-cd server
-npm install
-npm start
-```
-
-To start the ML server
-
-```
-cd api
-export HUGGINGFACEHUB_API_TOKEN={API_KEY}
-uvicorn server:app
+```bash
+  cd client
+  npm i
+  npm run dev
 ```
 
-## 🤖 Technology Stack
 
-Frontend:-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-Backend:-
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+```bash
+  cd server
+  npm i
+  nodemon index.js
+```
 
-## 👩‍💻 Team members
+Start the server
 
-- **Adwait Mandge**
-- **Dishie Vinchi**
+```bash
+  uvicorn server:app
+```
 
-## 🔗 Links
 
-- GitHub repo link: [Link to repository](https://github.com/adwaitmandge/healing-horizon)
+## 🔮 Future scope 
+What changes/improvements can be made in future
+
+## 📱 Screenshots 
+
+![Main website](https://res.cloudinary.com/ideation/image/upload/h_400,c_fit,q_100,f_auto,dpr_auto/id-code-to-give-810269/yhsywjgmbogmouf90fie)
+
+
+## 🪧 Demo
+
+Insert link to demo<br>
+[video](https://youtu.be/8VBJlMvIn7c)
+
+
+
+
+
